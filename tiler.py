@@ -7,11 +7,11 @@ import os
 
 
 class tiler():
-    def __init__(self, img, img_name, out_dir):        
+    def __init__(self, img, img_name, out_dir, tile_size = 1024, offset = 600, threshold=601):        
         
         just_file_info = pd.DataFrame({'filename':[], 'width':[], 'height':[], 'original_origin_y1':[], 'original_origin_x1':[]})
         
-        b = self.tiling(img, img_name, out_dir, tile_size = 1024, offset = 600, threshold=601)
+        b = self.tiling(img, img_name, out_dir, tile_size, offset, threshold)
         just_file_info = just_file_info.append(b, ignore_index=True, sort=False)
         
         for col in ['width', 'height', 'original_origin_y1', 'original_origin_x1']:

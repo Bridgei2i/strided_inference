@@ -28,24 +28,25 @@ class detiler():
 #                 box = getattr(val, 'boxes')
 #                 box = np.array(tuple(map(float, box[1:-1].split(','))))
 
-#                 x_cordi = np.array(tuple(map(int, box[1::2]*width)))
-#                 y_cordi = np.array(tuple(map(int, box[::2]*height)))
+                x_cordi = np.array((int(getattr(val, 'xmin')*width), int(getattr(val, 'xmax')*width)))
+                y_cordi = np.array((int(getattr(val, 'ymin')*height), int(getattr(val, 'ymax')*height)))
+        
+                x_cordi += origin_y1
+                y_cordi += origin_x1
 
-#                 x_cordi += origin_y1
-#                 y_cordi += origin_x1
-
-#                 first_vertex = (min(x_cordi), min(y_cordi))
-#                 second_vertex = (max(x_cordi), max(y_cordi))
+                first_vertex = (min(x_cordi), min(y_cordi))
+                second_vertex = (max(x_cordi), max(y_cordi))
   
 
                 img_name = getattr(val, 'filename').split("###")[0] + '.jpg'
                 cl.append(getattr(val, 'label'))
                 sco.append(getattr(val, 'confidence'))                
                 fn.append(img_name)
-                xmi.append(getattr(val, 'xmin'))
-                xma.append(getattr(val, 'xmax'))
-                ymi.append(getattr(val, 'ymin'))
-                yma.append(getattr(val, 'ymax'))
+                
+                xmi.append(first_vertex[0])
+                xma.append(second_vertex[0])
+                ymi.append(first_vertex[1])
+                yma.append(second_vertex[1])
 
             added_df = pd.DataFrame({'filename':fn, "label":cl, "confidence":sco, "xmin":xmi, "xmax":xma, "ymin":ymi, "ymax":yma})    
             new_tiled = new_tiled.append(added_df, ignore_index=True, sort=False)

@@ -9,7 +9,7 @@ from .tiler import tiler
 from .detiler import detiler
 import json
 
-def stridedInference(input_image, filename, DT):
+def stridedInference(input_image, filename, DT, tile_size_info = (1024, 600, 601)):
     if not os.path.exists(f'{filename[:-4]}_datam/tiles_out'):
         os.makedirs(f'{filename[:-4]}_datam/tiles_out')
    
@@ -20,27 +20,14 @@ def stridedInference(input_image, filename, DT):
     detection_path = f"{filename[:-4]}_datam/temp_files/detected_boxes.csv"
     original_info_path = f"{filename[:-4]}_datam/temp_files/tile_original_info.csv"
     output_save_dir = out_dir+'/../temp_files/detected_boxes'
-    tiler(input_image, filename, out_dir)
+    
+    tile_size, offset, threshold= tile_size_info
+    
+    tiler(input_image, filename, out_dir, tile_size, offset, threshold)
     
 
     df = DT(out_dir, output_save_dir)
     
-    #NOTE- It's being assumed the detection would give a JSON as output
-    
-#     #START of: Conversion of JSON to CSV
-#     with open(output_save_dir+'.json', 'r') as f:
-#         dat = json.load(f)
-
-#     df = pd.DataFrame(columns = ['filename', 'class', 'boxes', 'confidence'])
-#     for i in dat:
-#         temp_df = pd.DataFrame()
-#         dsize = len(dat[i]['boxes'])
-#         temp_df['filename'] = [i]*dsize
-#         temp_df['boxes'] = dat[i]['boxes']
-#         temp_df['class'] = dat[i]['classes']
-#         temp_df['confidence'] = dat[i]['confidence']
-#         res = pd.concat([res, temp_df], axis = 0, sort=False)    
-#     #END
 
     if df.shape[0] < 1:
         placeholder = pd.DataFrame(columns=['filename', 'label', 'xmin', 'xmax', 'ymin', 'ymax', 'confidence'])

@@ -23,24 +23,6 @@ class tiler():
         
     def tiling(self, img, img_name, output_dir, tile_size = 1024, offset = 600, threshold=601):
         img_shape = img.shape
-        
-        #if any(np.array(img_shape)<tile_size):
-        #    num = tile_size-min(img.shape)
-        #    img = np.pad(img, (0, num), constant_values=255)[:max(img_shape[0], tile_size),:max(img_shape[1], tile_size)]
-        
-        #print(img.shape)
-
-        '''
-        if '/' in img_path:
-            img_name = img_path.split('/')[-1]
-
-        elif '//' in img_path:
-            img_name = img_path.split('\\')[-1]
-        
-        else:
-            img_name = img_path
-        '''
-        #img_name = os.path.basename(img_path)
 
         filenames, heights, widths, labels, xmins, xmaxs, ymins, ymaxs = ([] for p in range(8))
 

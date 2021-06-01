@@ -6,11 +6,12 @@ class detiler():
     def __init__(self):
         pass
         
-    def detiling(self, tiled_csv, original_info_path):
+    def detiling(self, tiled_csv, original_info_path, nms_th=0.95):
         original_info = pd.read_csv(original_info_path)
 
         new_tiled = pd.DataFrame(columns=["filename", "label", "xmin", "xmax", "ymin", "ymax", "confidence"])
         col_schema = new_tiled.columns
+        
         for row in tiled_csv['filename'].unique():    
             fn, cl, xmi, xma, ymi, yma, sco = [[] for x in range(7)]
             temp_df = tiled_csv[(tiled_csv['filename']==row)].reset_index(drop=True).copy(deep=True)            
@@ -23,11 +24,6 @@ class detiler():
             origin_x1 = values[4]
 
             for val in temp_df.itertuples():
-                #box = val[2]
-                
-#                 box = getattr(val, 'boxes')
-#                 box = np.array(tuple(map(float, box[1:-1].split(','))))
-
                 x_cordi = np.array((int(getattr(val, 'xmin')*width), int(getattr(val, 'xmax')*width)))
                 y_cordi = np.array((int(getattr(val, 'ymin')*height), int(getattr(val, 'ymax')*height)))
         
@@ -52,7 +48,8 @@ class detiler():
             new_tiled = new_tiled.append(added_df, ignore_index=True, sort=False)
 
         final_out = pd.DataFrame(columns=col_schema)
-
+        
+        # START OF: Performing Non Max Suppresion over the detections we have got
         for filename in new_tiled['filename'].unique():
             tempi = new_tiled[(new_tiled['filename']==filename)]
             tempi = tempi[col_schema]
@@ -65,12 +62,13 @@ class detiler():
                 chk_scores = [0.9 for a in range(len(box_vals))]
 
                 try:
-                    indexes = cv2.dnn.NMSBoxes(box_vals, chk_scores, score_threshold=0.5, nms_threshold=0.95)
+                    indexes = cv2.dnn.NMSBoxes(box_vals, chk_scores, score_threshold=0.5, nms_threshold=nms_th)
                 except:
                     continue
 
                 indexes  = [index[0] for index in indexes]        
                 outTable = tempi2.iloc[indexes]
                 final_out = final_out.append(outTable, ignore_index=True, sort=False)
-
+        # END OF: NMS
+        
         return final_out

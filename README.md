@@ -5,16 +5,12 @@
 ###   
 <div style="text-align:center"><span style="color:grey; font-family:Trebuchet; font-size:5em;">CLEARLY</span></div>
 
+
+![Header.png](stridedinference/images/header.png)
+
 ###  [Link to Bi2i article](https://bridgei2i.com/strided_inferencing.com) | [Our arXiv paper](https://arxiv.org/abs/_____) | [Link to medium article on use case](https://amitamola.medium/Strided_inference) 
 
-![Header.png](https://bitbucket.org/cvteamspace/stridedinference/src/master/images/header.png)
-
-
-
 ## Requirements
-
-Please use Python 3.8 with all [requirements.txt](https://github.com/ultralytics/yolov3/blob/master/requirements.txt) dependencies installed, including `torch>=1.6`. Do not use python 3.9.
-
 ```bash
 $ pip install -r requirements.txt
 ```

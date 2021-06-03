@@ -6,7 +6,7 @@
 <div style="text-align:center"><span style="color:grey; font-family:Trebuchet; font-size:5em;">CLEARLY</span></div>
 
 
-![Header.png](images/header.png)
+![Header.png](images/Header.png)
 
 ###  [Link to Bi2i article](https://bridgei2i.com/strided_inferencing.com) | [Our arXiv paper](https://arxiv.org/abs/_____) | [Link to medium article on use case](https://amitamola.medium/Strided_inference) 
 

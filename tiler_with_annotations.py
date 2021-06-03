@@ -2,12 +2,22 @@ import cv2
 import math
 import numpy as np
 import pandas as pd
-import glob
 import os
 import sys
 import time
 
-class tile_for_training():    
+class tiler_for_training():
+    """This helps to create tiles from folder of images and the
+    annotation CSV for training prior to make use of Strided
+    Inference.
+
+    Methods
+    -------
+    tiler_with_annotations(inp_dir, annotationCSV_path, out_dir = None, tile_size_info = (1024, 600, 601)
+        Method to call to perform tiling with annotations. Check
+        out method's docstring for more information.
+
+    """
     def __init__(self):
         self.tile_size = 1024
         self.offset = 600
@@ -65,7 +75,9 @@ class tile_for_training():
         '''This intakes directory containing training images, path to the
         annotation CSV and the output directory. It creates the tiles of the
         given size specification and creates a new CSV for these new tiled 
-        images for further training.
+        images for further training. There tile images and CSV are stored
+        in the output directory provided as input. If not, it will get saved
+        in folder named 'Tiles_out'.
         
         Parameters
         ----------

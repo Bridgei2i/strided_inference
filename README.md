@@ -13,29 +13,38 @@ $ pip install -r requirements.txt
 ```
 
 
-## Modeling
-
-The data has been saved in `./modeling/data/`, if you added any extra image and annotation, please re-run the code in [**10-preparation-process.ipynb**](https://github.com/waittim/mask-detector/blob/master/modeling/10-preparation-process.ipynb) to get the new training set and test set.
-
-The following steps work on Google Colab.
-
-### 1. Training
-
-Run this code to train the model based on the pretrained weights **yolo-fastest.weights** from COCO.
-```bash
-$ python3 train.py --cfg yolo-fastest.cfg --data data/face_mask.data --weights weights/yolo-fastest.weights --epochs 120
+## 1. Using strided inference with a pre-trained model
 ```
-The training process would cost several hours. When the training ended, you can use `from utils import utils; utils.plot_results()` to get the training graphs.
+>>> from stridedInference.stridedInference import stridedInference
+>>> img_name = 'img.jpg'
+>>> image = cv2.imread(f'openCV_dnn/{img_name}')
 
-<img src="https://github.com/waittim/mask-detector/blob/master/modeling/results.png" width="900">
-
-After training, you can get the model weights [best.pt](https://github.com/waittim/mask-detector/blob/master/modeling/weights/best.pt) with its structure [yolo-fastest.cfg](https://github.com/waittim/mask-detector/blob/master/modeling/cfg/yolo-fastest.cfg). You can also use the following code to get the model weights [best.weights](https://github.com/waittim/mask-detector/blob/master/modeling/weights/best.weights) in Darknet format.
-
-```bash
-$ python3  -c "from models import *; convert('cfg/yolo-fastest.cfg', 'weights/best.pt')"
+>>> detections = stridedInference(image, img_name, detector, tile_size_info=(900, 700, 701), nms_th=0.95)
 ```
-### 2. Inference 
-With the model you got, the inference could be performed directly in this format: `python3 detect.py --source ...` For instance, if you want to use your webcam, please run `python3 detect.py --source 0`.
+
+## 2. To generate tiles for training new model 
+The key use case of this module is to make use of Strided Inferencing with a pre-trained model, yet for lot of cases
+there might be a need to train a new model on tiled images. We provide a submodule that performs this
+task and outputs tiled images and new tiled CSV(containing annotations) for your new model training.
+
+```
+>>> from tiler_with_annotations import tile_for_training
+>>> ob = tile_for_training()
+>>> ob.tiler_with_annotations(image_folder_path, annotation_csv_path,  output_directory_path, tile_size_information)
+```
+
+
+## 3. Example 
+Below we can see results of using OpenCV’s DNN module’s ssd_mobilenet network object detection with and without strided inference:
+
+### Figure  1: Stock image(5306 x 2985) of a substation with a big crowd
+![Original Stock Image](images/sample_img.jpg)
+
+### Figure  2: Figure 2: Result of running object detector with low confidence
+![Original Stock Image](images/result_without_strided.jpg)
+
+### Figure 3: Detections using strided inference using 900 pixel tiles and NMS of 0.95
+![Original Stock Image](images/result_with_strided.jpg)
 
 There are some example cases:
 

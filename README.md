@@ -1,10 +1,7 @@
 # Strided Inference: for small object detection in high resolution images
 ###     
-<div style="text-align:center"><span style="color:grey; font-family:Humor Sans; font-size:3em;">Let your model see things </span></div>
 
-###   
-<div style="text-align:center"><span style="color:grey; font-family:Trebuchet; font-size:5em;">CLEARLY</span></div>
-
+![let.png](images/let.png)
 
 ![Header.png](images/Header.png)
 

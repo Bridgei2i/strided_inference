@@ -1,16 +1,10 @@
-<div align="center">
-
-# Strided Inference: for small object detection in high resolution images
-###     
+# Strided Inference: for small object detection in high resolution images     
 
 ![let.png](images/let.png)
 
 ![Header.png](images/Header.png)
 
 ###  [Link to Bi2i article](https://bridgei2i.com/strided_inferencing.com) | [Our arXiv paper](https://arxiv.org/abs/_____) | [Link to medium article on use case](https://amitamola.medium/Strided_inference) 
-
-
-</div>
 
 ## Requirements
 ```bash

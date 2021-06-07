@@ -6,6 +6,9 @@
 
 ###  [Link to Bi2i article](https://bridgei2i.com/strided_inferencing.com) | [Our arXiv paper](https://arxiv.org/abs/_____) | [Link to medium article on use case](https://amitamola.medium/Strided_inference) 
 
+You can access the Jupyter Notebook with a working example in Google Colab below:
+[<img src="https://colab.research.google.com/assets/colab-badge.svg" align="center">](https://drive.google.com/file/d/1zh3b7wG8dMZBdQFDDtBjM-7Cae37ANTG/view?usp=sharing)
+
 ## Requirements
 ```bash
 $ pip install -r requirements.txt

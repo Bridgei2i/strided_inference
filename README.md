@@ -55,30 +55,24 @@ This code base is partially based on a brilliant paper published in [CVF](https:
 We sincerely would like to thank Unel, Ozkalaycı and Cıgla for their work.
 
 
-Primary Author
+Author
 ==============
 
-* __Amit Amola [Github](https://github.com/amitamola), [LinkedIn](https://www.linkedin.com/in/amitamola/)__
+* __Amit Amola [LinkedIn](https://www.linkedin.com/in/amitamola/), [Github](https://github.com/amitamola)__
 
     [@amit_amola](https://twitter.com/amit_amola) is the current maintainer of the 
-	code and has written much of the current code base, including a complete refactor 
-	of the core for open source version. He has been part of Bridgei2i since 2018 and 
-	currently works as Senior Analytics Consultant at AI Labs.
+    code and has written much of the current code base, including a complete refactor 
+    of the core for open source version. He has been part of Bridgei2i since 2018 and 
+    currently works as Senior Analytics Consultant at AI Labs.
+    
+    
+* __Anil Prasad MN [Google Scholar](https://scholar.google.co.in/citations?user=wbhEKCcAAAAJ&hl=en), [LinkedIn](https://www.linkedin.com/in/anilprasadmn), [Github](https://github.com/anilprasadmn)__
 
-Other Contributors
-==================
-
-The incomplete list of individuals below have provided patches or otherwise
-contributed to the project prior to the project being hosted on GitHub/Bitbucket. 
-We would like to thank everyone who has contributed to the project in any way.
-
-* [Anil Prasad MN](https://www.linkedin.com/in/anilprasadmn/)
-* [Sreekiran A R](https://www.linkedin.com/in/sreekiranar/)
-* [Divyansh Mishra](https://www.linkedin.com/in/dimishhra/)
-* [Shreyas HV](https://www.linkedin.com/in/shreyas-h-v-78215b160/)
-* Shaik Javed Hussian
+    The project was carried under supervision and guidance of [@anilprasadmn](https://twitter.com/anilprasadmn).
+    He currently works as Manager AI labs at BRIDGEi2i Analytics Solutions.
+    
 
 Queries and contribution
 ========================
-If someone has any queries, one can connect to us via email- amitamola.dun@gmail.com
+If someone has any queries, one can connect to us via email- amitamola.dun@gmail.com  
 Feel free to contribute to the project and raise pull request for the same.

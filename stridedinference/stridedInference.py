@@ -30,7 +30,7 @@ def stridedInference(image, filename, DT, tile_size_info = (1024, 600, 601), nms
     image : np.array
         Image in form of numpy array.
     filename : str
-        Image name to create uniquely named temporary folder.
+        Image name to create uniquely named temporary folder, later deleted.
     DT : func
         A detection function that takes folder path as input
         and returns back detections. Check NOTE above for more

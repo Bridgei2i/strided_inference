@@ -3,10 +3,36 @@ import numpy as np
 import cv2
 
 class detiler():
+    """This is an intermediate class that has the detiling method.
+    The detiling method finds the coordinates of the objects detected
+    on a tiled image in the original image by making use of the 
+    tiled_csv that gets created while creating the tiles prior to 
+    detection.
+
+    Methods
+    -------
+    detiling(tiled_csv, original_info_path, nms_th=0.95)
+        Method to call to perform detiling. Check out method's 
+        docstring for more information.
+    """
     def __init__(self):
         pass
         
     def detiling(self, tiled_csv, original_info_path, nms_th=0.95):
+        '''This method returns back the coordinates of the detections
+        made on small tiles with respect to their original location in
+        the larger image.
+        
+        Parameters
+        ----------
+        tiled_csv : pd.Dataframe
+            A dataframe containing the detections made on the tiled images.
+        original_info_path : str
+            Path to the csv containing origin coordinates of all the tiles
+            created to detile the result back to the original large image.
+        nms_th : float
+            Non Max Suppression threshold value to remove duplicates. 
+        '''
         original_info = pd.read_csv(original_info_path)
 
         new_tiled = pd.DataFrame(columns=["filename", "label", "xmin", "xmax", "ymin", "ymax", "confidence"])

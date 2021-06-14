@@ -13,7 +13,7 @@ class tiler_for_training():
 
     Methods
     -------
-    tiler_with_annotations(inp_dir, annotationCSV_path, out_dir = None, tile_size_info = (1024, 600, 601)
+    tiler_with_annotations(inp_dir, annotationCSV_path, out_dir = None, tile_size_info = (1024, 600, 601))
         Method to call to perform tiling with annotations. Check
         out method's docstring for more information.
 

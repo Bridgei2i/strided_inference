@@ -17,21 +17,10 @@ class tiler():
         Method to call to perform tiling. Check out method's 
         docstring for more information.
     """
-    def __init__(self, img, img_name, out_dir, tile_size = 1024, offset = 600, threshold=601):        
+    def __init__(self):        
+        pass
         
-        just_file_info = pd.DataFrame({'filename':[], 'width':[], 'height':[], 'original_origin_y1':[], 'original_origin_x1':[]})
-        
-        b = self.tiling(img, img_name, out_dir, tile_size, offset, threshold)
-        just_file_info = just_file_info.append(b, ignore_index=True, sort=False)
-        
-        for col in ['width', 'height', 'original_origin_y1', 'original_origin_x1']:
-            just_file_info[col] = just_file_info[col].astype('int')
-            
-        just_file_info.drop_duplicates(inplace=True)
-        just_file_info.to_csv(os.path.join(out_dir,'..','temp_files','tile_original_info.csv'), index=False)
-
-        
-    def tiling(self, img, img_name, output_dir, tile_size = 1024, offset = 600, threshold=601):
+    def tiling(self, img, img_name, tile_size = 1024, offset = 600, threshold=601):
         '''This method creates small overlapping tiles in the specified 
         output directory.
         
@@ -45,8 +34,6 @@ class tiler():
             Image in form of numpy array.
         img_name : str
             Image name to create uniquely named temporary folder, later deleted.
-        output_dir : str
-            Path to a directory or name to store the final images of tiles.
         tile_size : int
             Integer denoting size of the tile.
         offset : int
@@ -57,13 +44,22 @@ class tiler():
             In case the coordinates goes beyond the dimensions, it will cut of the
             tile of the threshold size till the end of the either axis to 
             return/create a minimum threshold sized tile.
+            
+        Returns
+        -------
+        tile_dict : dict
+            A dictionary with key as image name(with file format) and value 
+            is the image as numpy array.
+        ret : pd.DataFrame
+            DataFrame containing coordinate information of tiles created.
         '''
         img_shape = img.shape
 
         filenames, heights, widths, labels, xmins, xmaxs, ymins, ymaxs = ([] for p in range(8))
 
         fi, he, wi, ori_y1, ori_x1 = ([] for pi in range(5))
-
+        
+        tile_dict = dict()
 
         for i in range(int(math.ceil(img_shape[0]/offset))):
             for j in range(int(math.ceil(img_shape[1]/offset))):
@@ -89,12 +85,20 @@ class tiler():
                 ### End
                 
                 fname = f"{img_name[:-4]}###" + str(i) + "_" + str(j) + ".jpg"
-                cv2.imwrite(os.path.join(output_dir,fname), cropped_img)
+                
+                tile_dict[fname] = cropped_img
 
                 fi.append(fname)
                 he.append(cropped_img.shape[0])
                 wi.append(cropped_img.shape[1])
                 ori_y1.append(int(y1))
                 ori_x1.append(int(x1))
-
-        return pd.DataFrame({'filename':fi, 'width':wi, 'height':he,'original_origin_y1':ori_y1, 'original_origin_x1':ori_x1})
+                
+        ret = pd.DataFrame({'filename':fi, 'width':wi, 'height':he,'original_origin_y1':ori_y1, 'original_origin_x1':ori_x1})
+        
+        for col in ['width', 'height', 'original_origin_y1', 'original_origin_x1']:
+            ret[col] = ret[col].astype('int')
+            
+        ret.drop_duplicates(inplace=True)
+            
+        return tile_dict, ret

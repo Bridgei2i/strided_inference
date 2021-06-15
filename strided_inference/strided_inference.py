@@ -18,10 +18,11 @@ def strided_inference(image, filename, DT, tile_size_info = (1024, 600, 601), nm
     results in form of a pd.DataFrame.
 
     NOTE:
-    The detector function should be a python function that can take 
-    a folder containing images as an input and returns detections 
-    and useful information in form of a pd.DataFrame. The 
-    dataframe header should be of the form:
+    The detector function should be a python function that takes a 
+    dictionary where key is image name(with file format) and value 
+    is the image as numpy array. It returns detections and useful 
+    information in form of a pd.DataFrame. The dataframe header 
+    should be of the form:
     ['filename', 'label', 'xmin', 'xmax', 'ymin', 'ymax', 'confidence'].
     For more information, checkout the helper notebook provided.
     
@@ -32,8 +33,9 @@ def strided_inference(image, filename, DT, tile_size_info = (1024, 600, 601), nm
     filename : str
         Image name to create uniquely named temporary folder, later deleted.
     DT : func
-        A detection function that takes folder path as input
-        and returns back detections. Check NOTE above for more
+        A detection function that takes a dictionary where key is
+        image name(with file format) and value is the image as numpy
+        array. It returns back detections. Check NOTE above for more
         detail.
     tile_size_info : tuple
         A tuple containing information for the overlapping tiles
@@ -50,23 +52,12 @@ def strided_inference(image, filename, DT, tile_size_info = (1024, 600, 601), nm
     '''
     input_image = image.copy()
     
-    out_dir = os.path.join(f'{filename[:-4]}_datam', 'tiles_out')
-    
-    if not os.path.exists(out_dir):
-        os.makedirs(out_dir)
-   
-    path = os.path.join(f'{filename[:-4]}_datam', 'temp_files')
-    if not os.path.exists(path):
-        os.makedirs(path)        
-    
-    detection_path = os.path.join(f'{filename[:-4]}_datam', 'temp_files', 'detected_boxes.csv')
-    original_info_path = os.path.join(f'{filename[:-4]}_datam', 'temp_files', 'tile_original_info.csv')
-    
     tile_size, offset, threshold= tile_size_info
     
-    tiler(input_image, filename, out_dir, tile_size, offset, threshold)
+    obj = tiler()
+    tile_img_dict, tile_ori_info = obj.tiling(input_image, filename, tile_size, offset, threshold)
     
-    df = DT(out_dir)
+    df = DT(tile_img_dict)
     
     if df.shape[0] < 1:
         gt = pd.DataFrame(columns=['filename', 'label', 'xmin', 'xmax', 'ymin', 'ymax', 'confidence'])
@@ -74,9 +65,6 @@ def strided_inference(image, filename, DT, tile_size_info = (1024, 600, 601), nm
 
     if df.shape[0] > 1:
         ob = detiler()
-        gt = ob.detiling(df, original_info_path, nms_th)
-
-    if os.path.exists(f'{filename[:-4]}_datam'):
-        shutil.rmtree(f'{filename[:-4]}_datam')
+        gt = ob.detiling(df, tile_ori_info, nms_th)
         
     return gt

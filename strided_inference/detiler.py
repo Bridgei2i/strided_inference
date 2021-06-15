@@ -18,7 +18,7 @@ class detiler():
     def __init__(self):
         pass
         
-    def detiling(self, tiled_csv, original_info_path, nms_th=0.95):
+    def detiling(self, tiled_csv, original_info, nms_th=0.95):
         '''This method returns back the coordinates of the detections
         made on small tiles with respect to their original location in
         the larger image.
@@ -27,14 +27,12 @@ class detiler():
         ----------
         tiled_csv : pd.Dataframe
             A dataframe containing the detections made on the tiled images.
-        original_info_path : str
-            Path to the csv containing origin coordinates of all the tiles
+        original_info : pd.Dataframe
+            Dataframe containing origin coordinates of all the tiles
             created to detile the result back to the original large image.
         nms_th : float
             Non Max Suppression threshold value to remove duplicates. 
         '''
-        original_info = pd.read_csv(original_info_path)
-
         new_tiled = pd.DataFrame(columns=["filename", "label", "xmin", "xmax", "ymin", "ymax", "confidence"])
         col_schema = new_tiled.columns
         

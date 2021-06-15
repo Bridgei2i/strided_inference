@@ -28,8 +28,8 @@ class tiler():
             just_file_info[col] = just_file_info[col].astype('int')
             
         just_file_info.drop_duplicates(inplace=True)
-        just_file_info.to_csv(f'{out_dir}/../temp_files/tile_original_info.csv', index=False)
-        
+        just_file_info.to_csv(os.path.join(out_dir,'..','temp_files','tile_original_info.csv'), index=False)
+
         
     def tiling(self, img, img_name, output_dir, tile_size = 1024, offset = 600, threshold=601):
         '''This method creates small overlapping tiles in the specified 
@@ -89,7 +89,7 @@ class tiler():
                 ### End
                 
                 fname = f"{img_name[:-4]}###" + str(i) + "_" + str(j) + ".jpg"
-                cv2.imwrite(output_dir+'/'+fname, cropped_img)
+                cv2.imwrite(os.path.join(output_dir,fname), cropped_img)
 
                 fi.append(fname)
                 he.append(cropped_img.shape[0])

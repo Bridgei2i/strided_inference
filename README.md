@@ -1,8 +1,8 @@
 # Strided Inference: for small object detection in high resolution images     
 
-<img src="images/let.png" width="680">
+<img src="https://github.com/Bridgei2i/strided_inference/blob/master/images/let.png" width="680">
 
-![Header.png](images/Header.png)
+![Header.png](https://github.com/Bridgei2i/strided_inference/blob/master/images/Header.png)
 
 ###  [Link to Bi2i article](https://bridgei2i.com/strided_inferencing.com) | [Our arXiv paper](https://arxiv.org/abs/_____) | [Link to medium article on use case](https://amitamola.medium/Strided_inference) 
 
@@ -40,13 +40,13 @@ task and outputs tiled images and new tiled CSV(containing annotations) for your
 Below we can see results of using OpenCV’s DNN module’s ssd_mobilenet network object detection with and without strided inference:
 
 ### Figure  1: Stock image(5306 x 2985) of a substation with a big crowd
-![Original Stock Image](images/sample_img.jpg)
+![Original Stock Image](https://github.com/Bridgei2i/strided_inference/blob/master/images/sample_img.jpg)
 
 ### Figure 2: Result of running object detector with low confidence
-![Original Stock Image](images/result_without_strided.jpg)
+![Original Stock Image](https://github.com/Bridgei2i/strided_inference/blob/master/images/result_without_strided.jpg)
 
 ### Figure 3: Detections using strided inference using 900 pixel tiles and NMS of 0.95
-![Original Stock Image](images/result_with_strided.jpg)
+![Original Stock Image](https://github.com/Bridgei2i/strided_inference/blob/master/images/result_with_strided.jpg)
 
 
 ## Acknowledgement

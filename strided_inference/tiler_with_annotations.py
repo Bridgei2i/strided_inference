@@ -26,7 +26,8 @@ class tiler_for_training():
         self.inp_dir = None
     
     def __tiler(self, img_name, img_data):
-        img = cv2.imread(self.inp_dir+'/'+img_name)
+#         img = cv2.imread(self.inp_dir+'/'+img_name)
+        img = cv2.imread(os.path.join(self.inp_dir,img_name))
         img_shape = img.shape
 
         filenames, heights, widths, labels, xmins, xmaxs, ymins, ymaxs = ([] for p in range(8))
@@ -52,8 +53,7 @@ class tiler_for_training():
                     continue
 
                 fname = f"{img_name[:-4]}###" + str(i) + "_" + str(j) + ".jpg"
-                cv2.imwrite(self.out_dir+'/tiled_images/'+fname, cropped_img)
-
+                cv2.imwrite(os.path.join(self.out_dir,'tiled_images',fname), cropped_img)
 
                 for row in img_data.itertuples(index = True):     
                     label, x1_label, x2_label, y1_label, y2_label = (getattr(row, "label"), getattr(row, "xmin"), \

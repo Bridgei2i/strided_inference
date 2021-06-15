@@ -10,7 +10,7 @@ from .detiler import detiler
 import json
 
 
-def stridedInference(image, filename, DT, tile_size_info = (1024, 600, 601), nms_th = 0.95):
+def strided_inference(image, filename, DT, tile_size_info = (1024, 600, 601), nms_th = 0.95):
     '''Strided Inference function takes the image and the detector 
     function as an input. For a given or specified size of tiles, 
     it performs strided inference over the overlapping tiles of the 
@@ -50,16 +50,17 @@ def stridedInference(image, filename, DT, tile_size_info = (1024, 600, 601), nms
     '''
     input_image = image.copy()
     
-    if not os.path.exists(f'{filename[:-4]}_datam/tiles_out'):
-        os.makedirs(f'{filename[:-4]}_datam/tiles_out')
-   
-    if not os.path.exists(f'{filename[:-4]}_datam/temp_files'):
-        os.makedirs(f'{filename[:-4]}_datam/temp_files')        
+    out_dir = os.path.join(f'{filename[:-4]}_datam', 'tiles_out')
     
-    out_dir = f"{filename[:-4]}_datam/tiles_out"
-    detection_path = f"{filename[:-4]}_datam/temp_files/detected_boxes.csv"
-    original_info_path = f"{filename[:-4]}_datam/temp_files/tile_original_info.csv"
-    output_save_dir = out_dir+'/../temp_files/detected_boxes'
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir)
+   
+    path = os.path.join(f'{filename[:-4]}_datam', 'temp_files')
+    if not os.path.exists(path):
+        os.makedirs(path)        
+    
+    detection_path = os.path.join(f'{filename[:-4]}_datam', 'temp_files', 'detected_boxes.csv')
+    original_info_path = os.path.join(f'{filename[:-4]}_datam', 'temp_files', 'tile_original_info.csv')
     
     tile_size, offset, threshold= tile_size_info
     
@@ -68,15 +69,14 @@ def stridedInference(image, filename, DT, tile_size_info = (1024, 600, 601), nms
     df = DT(out_dir)
     
     if df.shape[0] < 1:
-        placeholder = pd.DataFrame(columns=['filename', 'label', 'xmin', 'xmax', 'ymin', 'ymax', 'confidence'])
-        if os.path.exists(f'{filename[:-4]}_datam'):
-            shutil.rmtree(f'{filename[:-4]}_datam')
-        return placeholder
+        gt = pd.DataFrame(columns=['filename', 'label', 'xmin', 'xmax', 'ymin', 'ymax', 'confidence'])
+
 
     if df.shape[0] > 1:
         ob = detiler()
         gt = ob.detiling(df, original_info_path, nms_th)
 
+    if os.path.exists(f'{filename[:-4]}_datam'):
         shutil.rmtree(f'{filename[:-4]}_datam')
-
-        return gt
+        
+    return gt

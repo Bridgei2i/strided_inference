@@ -37,6 +37,8 @@ task and outputs tiled images and new tiled CSV(containing annotations) for your
 
 
 ## 3. Example 
+We ran OpenCV's DNN module's object detection using our library to see the difference in the result. Please re-run the code in [**Trying strided inference.ipynb**](https://github.com/Bridgei2i/strided_inference/blob/master/example/Trying strided inference.ipynb) to get similar results. 
+
 Below we can see results of using OpenCV’s DNN module’s ssd_mobilenet network object detection with and without strided inference:
 
 ### Figure  1: Stock image(5306 x 2985) of a substation with a big crowd

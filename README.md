@@ -4,10 +4,13 @@
 
 ![Header.png](https://github.com/Bridgei2i/strided_inference/blob/master/images/Header.png)
 
+
 ###  [Link to Bi2i article](https://bridgei2i.com/strided_inferencing.com) | [Our arXiv paper](https://arxiv.org/abs/_____) | [Link to medium article on use case](https://amitamola.medium/Strided_inference) 
+
 
 You can access the Jupyter Notebook with a working example in Google Colab below:  
 [<img src="https://colab.research.google.com/assets/colab-badge.svg" align="center">](https://drive.google.com/file/d/1zh3b7wG8dMZBdQFDDtBjM-7Cae37ANTG/view?usp=sharing)
+
 
 ## Requirements
 ```bash
@@ -17,11 +20,11 @@ $ pip install -r requirements.txt
 
 ## 1. Using strided inference with a pre-trained model
 ```
->>> from stridedInference.stridedInference import stridedInference
+>>> from strided_inference.strided_inference import strided_inference
 >>> img_name = 'img.jpg'
->>> image = cv2.imread(f'openCV_dnn/{img_name}')
+>>> image = cv2.imread(f'images/{img_name}')
 
->>> detections = stridedInference(image, img_name, detector, tile_size_info=(900, 700, 701), nms_th=0.95)
+>>> detections = strided_inference(img, img_name, detector, tile_size_info=(900, 700, 701), nms_th=0.95)
 ```
 
 ## 2. To generate tiles for training new model 
@@ -37,7 +40,7 @@ task and outputs tiled images and new tiled CSV(containing annotations) for your
 
 
 ## 3. Example 
-We ran OpenCV's DNN module's object detection using our library to see the difference in the result. Please re-run the code in [**Trying strided inference.ipynb**](https://github.com/Bridgei2i/strided_inference/blob/master/example/Trying strided inference.ipynb) to get similar results. 
+We ran OpenCV's DNN module's object detection using our library to see the difference in the result. Please re-run the code in [**Trying_strided_inference.ipynb**](https://github.com/Bridgei2i/strided_inference/blob/master/example/Trying_strided_inference.ipynb) to get similar results. The model has to be downloaded from this [link](https://drive.google.com/drive/folders/1_qswvz0x0HdeLkrXiacyDkwu_hrnr0wm?usp=sharing) and put inside ```example/OpenCV DNN``` folder before running the notebook.
 
 Below we can see results of using OpenCV’s DNN module’s ssd_mobilenet network object detection with and without strided inference:
 
@@ -51,10 +54,12 @@ Below we can see results of using OpenCV’s DNN module’s ssd_mobilenet networ
 ![Original Stock Image](https://github.com/Bridgei2i/strided_inference/blob/master/images/result_with_strided.jpg)
 
 
+
 ## Acknowledgement
 
 This code base is partially based on a brilliant paper published in [CVF](https://openaccess.thecvf.com/content_CVPRW_2019/papers/UAVision/Unel_The_Power_of_Tiling_for_Small_Object_Detection_CVPRW_2019_paper.pdf). 
 We sincerely would like to thank Unel, Ozkalaycı and Cıgla for their work.
+
 
 
 Author
@@ -73,6 +78,7 @@ Author
     The project was carried under supervision and guidance of [@anilprasadmn](https://twitter.com/anilprasadmn).
     He currently works as Manager AI labs at BRIDGEi2i Analytics Solutions.
     
+
 
 Queries and contribution
 ========================

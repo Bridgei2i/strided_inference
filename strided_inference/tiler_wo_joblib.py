@@ -4,17 +4,12 @@ import numpy as np
 import pandas as pd
 import glob
 import os
-from joblib import Parallel, delayed
-import itertools
 
 
 class tiler():
     """This is an intermediate class that has the tiling method
     which is used to create small overlapping tiles of a given
     image with either default or user-defined tile specifications.
-    This is multiprocessing implementation of tiler using joblib.
-    In case it causes issue, please use the other code named as
-    tiler_wo_joblib.
 
     Methods
     -------
@@ -58,47 +53,48 @@ class tiler():
         ret : pd.DataFrame
             DataFrame containing coordinate information of tiles created.
         '''
-        def process_img(i, j):
-            temp_dict = dict()
-            x1 = offset*i
-            x2 = min(x1+tile_size, img_shape1)
+        img_shape = img.shape
 
-            y1 = offset*j
-            y2 = min(y1+tile_size, img_shape2)
+        filenames, heights, widths, labels, xmins, xmaxs, ymins, ymaxs = ([] for p in range(8))
 
-            if (x2-x1)<threshold:
-                x1 = img_shape1 - tile_size
-
-            if (y2-y1)<threshold:
-                y1 = img_shape2 - tile_size
-
-            cropped_img = img[x1:x2, y1:y2]
-                
-            ### Start Of: Code block that ignores the 99% only white area
-            if np.sum(cropped_img>=250)/(cropped_img.shape[0]*cropped_img.shape[1]*3)>0.99:
-                return None
-            
-            else:
-                fname = f"{img_name[:-4]}###" + str(i) + "_" + str(j) + ".jpg"
-#                 cv2.imwrite(output_dir+'/ims/'+fname, cropped_img)
-                temp_dict[fname] = cropped_img
-
-                return [temp_dict, fname, cropped_img.shape[0], cropped_img.shape[1], int(y1), int(x1)]
-                
-        img_shape1, img_shape2, _ = img.shape
+        fi, he, wi, ori_y1, ori_x1 = ([] for pi in range(5))
+        
         tile_dict = dict()
-        
-        all_i = range(int(math.ceil(img_shape1/offset)))
-        all_j = range(int(math.ceil(img_shape2/offset)))
-        vals = itertools.product(all_i, all_j)
+
+        for i in range(int(math.ceil(img_shape[0]/offset))):
+            for j in range(int(math.ceil(img_shape[1]/offset))):
+                x1 = offset*i
+                x2 = min(x1+tile_size, img_shape[0])
+
+                y1 = offset*j
+                y2 = min(y1+tile_size, img_shape[1])
+
+                if (x2-x1)<threshold:
+                    x1 = img_shape[0] - tile_size
+
+                if (y2-y1)<threshold:
+                    y1 = img_shape[1] - tile_size
+
+                cropped_img = img[x1:x2, y1:y2]
                 
-        df_list = Parallel(n_jobs=-1)(delayed(process_img)(i, j) for i,j in vals)
-        df_list = [x for x in df_list if x is not None]
-        
-        for i in df_list:
-            tile_dict.update(i.pop(0))
+                ### Start Of: Code block that ignores the 99% only white area
                 
-        ret = pd.DataFrame(df_list, columns=['filename', 'width', 'height','original_origin_y1', 'original_origin_x1'])
+                if np.sum(cropped_img>=250)/(cropped_img.shape[0]*cropped_img.shape[1]*3)>0.99:
+                    continue
+                
+                ### End
+                
+                fname = f"{img_name[:-4]}###" + str(i) + "_" + str(j) + ".jpg"
+                
+                tile_dict[fname] = cropped_img
+
+                fi.append(fname)
+                he.append(cropped_img.shape[0])
+                wi.append(cropped_img.shape[1])
+                ori_y1.append(int(y1))
+                ori_x1.append(int(x1))
+                
+        ret = pd.DataFrame({'filename':fi, 'width':wi, 'height':he,'original_origin_y1':ori_y1, 'original_origin_x1':ori_x1})
         
         for col in ['width', 'height', 'original_origin_y1', 'original_origin_x1']:
             ret[col] = ret[col].astype('int')

@@ -5,7 +5,7 @@
 ![Header.png](https://github.com/Bridgei2i/strided_inference/blob/master/images/Header.png)
 
 
-###  [Link to Bi2i article](https://bridgei2i.com/strided_inferencing.com) | [Our arXiv paper](https://arxiv.org/abs/_____) | [Link to medium article on use case](https://amitamola.medium/Strided_inference) 
+### [Link to medium article on use case]([https://amitamola.medium/Strided_inference](https://medium.com/@amitamola/strided-inference-small-object-detection-in-high-resolution-images-dc63e23a68e1)) 
 
 
 
